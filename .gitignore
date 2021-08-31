@@ -33,7 +33,7 @@
 
 # Binaries
 **/bin/
-**/int-bin/
+**/bin-int/
 
 # Litus files
 *.log
