@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+
+# Binaries
+**/bin/
+/int-bin/
+
+# Litus files
+*.log
+
+# VisualStudio files
+.vs/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
