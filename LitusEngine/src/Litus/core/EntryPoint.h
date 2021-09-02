@@ -6,6 +6,7 @@ extern LT::Application* LT::createApplication();
 
 int main(int argc, char** charv)
 {
+	LT::Log::init();
 	auto app = LT::createApplication();
 	app->run();
 	delete app;
