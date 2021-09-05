@@ -9,6 +9,11 @@ workspace "LitusEngine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}" 
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "LitusEngine/vendor/GLFW/include"
+
+include "LitusEngine/vendor/GLFW"
+
 project "LitusEngine"
 	location "LitusEngine"
 	kind "SharedLib"
@@ -26,7 +31,14 @@ project "LitusEngine"
 	pchsource "%{prj.name}/src/pch.cpp"
 
 	includedirs {
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links {
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

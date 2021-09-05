@@ -9,3 +9,6 @@
 #else
 	#error Litus only supports windows
 #endif // LT_PLATFORM_WINDOWS
+
+#define BIT(x) (1 << x)
+#define LT_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
