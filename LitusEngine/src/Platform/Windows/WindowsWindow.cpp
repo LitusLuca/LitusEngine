@@ -5,6 +5,8 @@
 #include "Litus\Event\KeyEvents.h"
 #include "Litus\Event\MouseEvents.h"
 
+#include <glad\glad.h>
+
 namespace LT {
 
 	static bool s_GLFW_INITIALIZED = false;
@@ -46,6 +48,9 @@ namespace LT {
 		}
 		m_window = glfwCreateWindow((int)m_data.Width, (int)m_data.Height, m_data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_window);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		LT_CORE_INFO("Glad initialized with: ({0})", status);
 		glfwSetWindowUserPointer(m_window, &m_data);
 		setVSync(true);
 

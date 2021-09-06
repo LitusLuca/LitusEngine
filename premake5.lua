@@ -11,13 +11,16 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "LitusEngine/vendor/GLFW/include"
+IncludeDir["GLAD"] = "LitusEngine/vendor/GLAD/include"
 
 include "LitusEngine/vendor/GLFW"
+include "LitusEngine/vendor/GLAD"
 
 project "LitusEngine"
 	location "LitusEngine"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -33,21 +36,23 @@ project "LitusEngine"
 	includedirs {
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.GLAD}"
 	}
 
 	links {
 		"GLFW",
+		"GLAD",
 		"opengl32.lib"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		defines {
 			"LT_PLATFORM_WINDOWS",
-			"LT_BUILD_DLL"
+			"LT_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands {
@@ -71,6 +76,7 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -91,7 +97,6 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		defines {
 			"LT_PLATFORM_WINDOWS"
