@@ -29,8 +29,6 @@ namespace LT {
 
 	class LAPI Event
 	{
-		friend class EventDispatcher;
-
 	public:
 		virtual EventType getEventType() const = 0;
 		virtual const char* getName() const = 0;
@@ -41,8 +39,7 @@ namespace LT {
 		{
 			return getCategoryFlags() & category;
 		}
-	protected:
-		bool m_handled = false;
+		bool Handled = false;
 	};
 
 	class EventDispatcher
@@ -58,7 +55,7 @@ namespace LT {
 		{
 			if (m_event.getEventType() == T::getStaticType())
 			{
-				m_event.m_handled = func(static_cast<T&>(m_event));
+				m_event.Handled = func(static_cast<T&>(m_event));
 				return true;
 			}
 			return false;

@@ -4,3 +4,6 @@
 [submodule "LitusEngine/vendor/GLFW"]
 	path = LitusEngine/vendor/GLFW
 	url = https://github.com/LitusLuca/glfw
+[submodule "LitusEngine/vendor/ImGui"]
+	path = LitusEngine/vendor/ImGui
+	url = https://github.com/LitusLuca/ImGui

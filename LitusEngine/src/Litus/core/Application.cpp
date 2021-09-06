@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Application.h"
 
-#include "GLFW\glfw3.h"
+#include <glad\glad.h>
 
 namespace LT {
 
@@ -17,10 +17,26 @@ namespace LT {
 
 	void Application::onEvent(Event& ev)
 	{
-		LT_CORE_TRACE("{0}", ev.toString());
 		EventDispatcher dispatcher(ev);
 		dispatcher.Dispatch<WindowCloseEvent>(LT_BIND_EVENT_FN(Application::onWindowCloseEvent));
 		dispatcher.Dispatch<WindowResizeEvent>(LT_BIND_EVENT_FN(Application::onWindowResizeEvent));
+
+		for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); ++it)
+		{
+			if (ev.Handled)
+				break;
+			(*it)->onEvent(ev);
+		}
+	}
+
+	void Application::pushLayer(Layer* layer)
+	{
+		m_layerStack.pushLayer(layer);
+	}
+
+	void Application::pushOverlay(Layer* overlay)
+	{
+		m_layerStack.pushOverlay(overlay);
 	}
 
 	void Application::run()
@@ -29,6 +45,12 @@ namespace LT {
 		{
 			glClearColor(0.f, 1.f, 1.f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			for (Layer* layer : m_layerStack)
+			{
+				layer->onUpdate();
+			}
+
 			m_window->onUpdate();
 		}
 	}
