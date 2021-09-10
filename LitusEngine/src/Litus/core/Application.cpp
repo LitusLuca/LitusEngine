@@ -5,14 +5,20 @@
 
 namespace LT {
 
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application()
 	{
+		s_Instance = this;
+
 		m_window = std::unique_ptr<Window>(Window::create());
 		m_window->setEventCallback(LT_BIND_EVENT_FN(Application::onEvent));
+
+		m_ImGuiLayer = new ImGuiLayer();
+		pushOverlay(m_ImGuiLayer);
 	}
 	Application::~Application()
 	{
-
 	}
 
 	void Application::onEvent(Event& ev)
@@ -32,11 +38,13 @@ namespace LT {
 	void Application::pushLayer(Layer* layer)
 	{
 		m_layerStack.pushLayer(layer);
+		layer->onAttach();
 	}
 
 	void Application::pushOverlay(Layer* overlay)
 	{
 		m_layerStack.pushOverlay(overlay);
+		overlay->onAttach();
 	}
 
 	void Application::run()
@@ -50,7 +58,12 @@ namespace LT {
 			{
 				layer->onUpdate();
 			}
-
+			m_ImGuiLayer->begin();
+			for (Layer* layer : m_layerStack)
+			{
+				layer->onImGuiRender();
+			}
+			m_ImGuiLayer->end();
 			m_window->onUpdate();
 		}
 	}

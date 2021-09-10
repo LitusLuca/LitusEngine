@@ -12,15 +12,17 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "LitusEngine/vendor/GLFW/include"
 IncludeDir["GLAD"] = "LitusEngine/vendor/GLAD/include"
+IncludeDir["ImGui"] = "LitusEngine/vendor/ImGui"
 
 include "LitusEngine/vendor/GLFW"
 include "LitusEngine/vendor/GLAD"
+include "LitusEngine/vendor/ImGui"
 
 project "LitusEngine"
 	location "LitusEngine"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -37,12 +39,14 @@ project "LitusEngine"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.GLAD}"
+		"%{IncludeDir.GLAD}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links {
 		"GLFW",
 		"GLAD",
+		"ImGui",
 		"opengl32.lib"
 	}
 
@@ -55,9 +59,6 @@ project "LitusEngine"
 			"GLFW_INCLUDE_NONE"
 		}
 
-		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
 
 	filter "configurations:Debug"
 		defines "LT_DEBUG"
@@ -76,7 +77,7 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -87,6 +88,7 @@ project "Sandbox"
 	}
 
 	includedirs {
+		"LitusEngine/vendor",
 		"LitusEngine/vendor/spdlog/include",
 		"LitusEngine/src"
 	}

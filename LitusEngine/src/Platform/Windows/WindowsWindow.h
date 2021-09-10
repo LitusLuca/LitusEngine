@@ -20,6 +20,8 @@ namespace LT {
         void setVSync(bool enabled) override;
         bool isVSync() const override;
 
+        void* getNativeWindow() const override { return m_window; }
+
     private:
         virtual void init(const WindowProps& l_props);
         virtual void shutdown();
