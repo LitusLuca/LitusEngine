@@ -7,3 +7,6 @@
 [submodule "LitusEngine/vendor/ImGui"]
 	path = LitusEngine/vendor/ImGui
 	url = https://github.com/LitusLuca/ImGui
+[submodule "LitusEngine/vendor/glm"]
+	path = LitusEngine/vendor/glm
+	url = https://github.com/g-truc/glm

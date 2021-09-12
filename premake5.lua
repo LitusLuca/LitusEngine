@@ -13,6 +13,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "LitusEngine/vendor/GLFW/include"
 IncludeDir["GLAD"] = "LitusEngine/vendor/GLAD/include"
 IncludeDir["ImGui"] = "LitusEngine/vendor/ImGui"
+IncludeDir["glm"] = "LitusEngine/vendor/glm"
 
 include "LitusEngine/vendor/GLFW"
 include "LitusEngine/vendor/GLAD"
@@ -40,7 +41,8 @@ project "LitusEngine"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
@@ -90,7 +92,8 @@ project "Sandbox"
 	includedirs {
 		"LitusEngine/vendor",
 		"LitusEngine/vendor/spdlog/include",
-		"LitusEngine/src"
+		"LitusEngine/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
