@@ -9,6 +9,8 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 void ExampleLayer::onUpdate()
 {
 	LT_INFO("ExampleLayer::onUpdate()");
+	auto [x, y] = LT::Input::getMousePos();
+	LT_TRACE("{0}, {1}", x, y);
 }
 
 void ExampleLayer::onEvent(LT::Event& ev)
