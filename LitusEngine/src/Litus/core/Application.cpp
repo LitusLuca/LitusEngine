@@ -16,6 +16,29 @@ namespace LT {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		pushOverlay(m_ImGuiLayer);
+
+		float vertices[3 * 4] =
+		{
+			-0.5f, -0.5f, 0.f, 
+			0.5f, -0.5f, 0.f,
+			-0.5f, 0.5f, 0.f,
+			0.5f, 0.5f, 0.5f
+		};
+
+		unsigned int indices[3*2] =
+		{
+			0,1,2,
+			2,1,3
+		};
+
+		glGenVertexArrays(1, &VAO);
+		glBindVertexArray(VAO);
+
+		m_vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		glEnableVertexAttribArray(0);
+
+		m_indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 	}
 	Application::~Application()
 	{
@@ -58,6 +81,10 @@ namespace LT {
 			{
 				layer->onUpdate();
 			}
+
+			glBindVertexArray(VAO);
+			glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, 0);
+
 			m_ImGuiLayer->begin();
 			for (Layer* layer : m_layerStack)
 			{
