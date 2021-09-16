@@ -5,7 +5,7 @@
 #include "Litus\Event\KeyEvents.h"
 #include "Litus\Event\MouseEvents.h"
 
-#include <glad\glad.h>
+#include "Platform\OpenGL\OpenGLContext.h"
 
 namespace LT {
 
@@ -47,10 +47,9 @@ namespace LT {
 			s_GLFW_INITIALIZED = true;
 		}
 		m_window = glfwCreateWindow((int)m_data.Width, (int)m_data.Height, m_data.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_window);
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		LT_CORE_INFO("Glad initialized with: ({0})", status);
+		m_context = new OpenGLContext(m_window);
+		m_context->init();
+		
 		glfwSetWindowUserPointer(m_window, &m_data);
 		setVSync(true);
 
@@ -141,7 +140,7 @@ namespace LT {
 	void WindowsWindow::onUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_window);
+		m_context->swapBuffers();
 	}
 	void WindowsWindow::setVSync(bool enabled)
 	{

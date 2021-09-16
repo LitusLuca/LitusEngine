@@ -1,6 +1,6 @@
 #pragma once
 #include "Litus\core\Window.h"
-
+#include "Litus\Renderer\GraphicsContext.h"
 #include "GLFW\glfw3.h"
 
 namespace LT {
@@ -27,6 +27,7 @@ namespace LT {
         virtual void shutdown();
     private:
         GLFWwindow* m_window;
+        GraphicsContext* m_context;
         
         struct WindowData
         {
