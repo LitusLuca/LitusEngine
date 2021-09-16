@@ -11,8 +11,21 @@
 		#define LAPI
 	#endif
 #else
-	#error Litus only supports windows
+	#error LitusEngine only supports windows
 #endif // LT_PLATFORM_WINDOWS
+
+#ifdef LT_DEBUG
+#define HZ_ENABLE_ASSERTS
+#endif // LT_DEBUG
+
+
+#ifdef HZ_ENABLE_ASSERTS
+#define LT_ASSERT(x, ...) { if(!(x)){LT_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); }}
+#define LT_CORE_ASSERT(x, ...) { if(!(x)){LT_CORE_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+#define LT_ASSERT(X, ...)
+#define LT_CORE_ASSERT(x, ...)
+#endif
 
 #define BIT(x) (1 << x)
 #define LT_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
