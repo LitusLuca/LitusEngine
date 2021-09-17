@@ -8,7 +8,7 @@
 namespace LT {
 	VertexBuffer* VertexBuffer::Create(float* vertices, uint32_t size)
 	{
-		switch (Renderer::getApi())
+		switch (Renderer::GetApi())
 		{
 		case RendererAPI::None: LT_CORE_ASSERT(false, "None Renderer is not supported!");
 		case RendererAPI::OpenGL: return new OpenGLVertexBuffer(vertices, size);
@@ -17,7 +17,7 @@ namespace LT {
 
 	IndexBuffer* IndexBuffer::Create(uint32_t* indices, uint32_t count)
 	{
-		switch (Renderer::getApi())
+		switch (Renderer::GetApi())
 		{
 		case RendererAPI::None: LT_CORE_ASSERT(false, "None Renderer is not supported!");
 		case RendererAPI::OpenGL: return new OpenGLIndexBuffer(indices, count);

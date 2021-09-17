@@ -7,6 +7,9 @@
 #include "Litus\Event\ApplicationEvents.h"
 #include "Litus\ImGui\ImGuiLayer.h"
 
+#include "Litus\Renderer\Buffer.h"
+
+#include "Litus\Renderer\Buffer.h"
 
 namespace LT {
 	class LAPI Application
@@ -15,19 +18,19 @@ namespace LT {
 		Application();
 		virtual ~Application();
 
-		void onEvent(Event& e);
+		void OnEvent(Event& e);
 
-		void run();
+		void Run();
 
-		void pushLayer(Layer* layer);
-		void pushOverlay(Layer* overlay);
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
 		
-		Window& getWindow() { return *m_window; }
+		Window& GetWindow() { return *m_window; }
 
 		static Application& get() { return *s_Instance; }
 	private:
-		bool onWindowCloseEvent(WindowCloseEvent& e);
-		bool onWindowResizeEvent(WindowResizeEvent& e);
+		bool OnWindowCloseEvent(WindowCloseEvent& e);
+		bool OnWindowResizeEvent(WindowResizeEvent& e);
 
 
 		std::unique_ptr<Window> m_window;
@@ -39,6 +42,11 @@ namespace LT {
 
 	private:
 		static Application* s_Instance;
+
+		unsigned int VAO;
+
+		std::unique_ptr<VertexBuffer> m_vertexBuffer;
+		std::unique_ptr<IndexBuffer> m_indexBuffer;
 	};
 
 	Application* createApplication();

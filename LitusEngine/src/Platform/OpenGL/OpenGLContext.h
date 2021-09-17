@@ -9,8 +9,8 @@ namespace LT {
 	public:
 		OpenGLContext(GLFWwindow* windowHandle);
 
-		void init() override;
-		void swapBuffers() override;
+		void Init() override;
+		void SwapBuffers() override;
 	private:
 		GLFWwindow* m_windowHandle;
 	};

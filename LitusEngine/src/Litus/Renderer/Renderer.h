@@ -10,7 +10,7 @@ namespace LT {
 	class Renderer
 	{
 	public:
-		static RendererAPI getApi() { return s_rendererAPI; }
+		static RendererAPI GetApi() { return s_rendererAPI; }
 
 	private:
 		static RendererAPI s_rendererAPI;

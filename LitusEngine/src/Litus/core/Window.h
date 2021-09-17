@@ -21,17 +21,17 @@ namespace LT {
 		using EventCallBackFn = std::function<void(Event&)>;
 
 		virtual ~Window() {}
-		virtual void onUpdate() = 0;
+		virtual void OnUpdate() = 0;
 
-		virtual unsigned int getWidth() const = 0;
-		virtual unsigned int getHeight() const = 0;
+		virtual unsigned int GetWidth() const = 0;
+		virtual unsigned int GetHeight() const = 0;
 
-		virtual void setEventCallback(const EventCallBackFn& callback) = 0;
-		virtual void setVSync(bool enabled) = 0;
-		virtual bool isVSync() const = 0;
+		virtual void SetEventCallback(const EventCallBackFn& callback) = 0;
+		virtual void SetVSync(bool enabled) = 0;
+		virtual bool IsVSync() const = 0;
 
-		virtual void* getNativeWindow() const = 0;
+		virtual void* GetNativeWindow() const = 0;
 
-		static Window* create(const WindowProps& props = WindowProps());
+		static Window* Create(const WindowProps& props = WindowProps());
 	};
 }

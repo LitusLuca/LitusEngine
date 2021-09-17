@@ -8,12 +8,12 @@ namespace LT {
 		ImGuiLayer();
 		~ImGuiLayer();
 
-		void onAttach() override;
-		void onDetach() override;
-		void onImGuiRender() override;
+		void OnAttach() override;
+		void OnDetach() override;
+		void OnImGuiRender() override;
 
-		void begin();
-		void end();
+		void Begin();
+		void End();
 		
 	private:
 		float m_time = 0.f;

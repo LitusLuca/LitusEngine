@@ -6,8 +6,8 @@ class ExampleLayer :
 public:
     ExampleLayer();
 
-    void onUpdate() override;
-    void onEvent(LT::Event& ev) override;
-    void onImGuiRender() override;
+    void OnUpdate() override;
+    void OnEvent(LT::Event& ev) override;
+    void OnImGuiRender() override;
 };
 

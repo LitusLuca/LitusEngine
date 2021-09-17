@@ -14,11 +14,11 @@ namespace LT {
 	{
 		glDeleteBuffers(1, &m_rendererID);
 	}
-	void OpenGLVertexBuffer::bind() const
+	void OpenGLVertexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
 	}
-	void OpenGLVertexBuffer::unbind() const
+	void OpenGLVertexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
@@ -35,11 +35,11 @@ namespace LT {
 	{
 		glDeleteBuffers(1, &m_rendererID);
 	}
-	void OpenGLIndexBuffer::bind() const
+	void OpenGLIndexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID);
 	}
-	void OpenGLIndexBuffer::unbind() const
+	void OpenGLIndexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}

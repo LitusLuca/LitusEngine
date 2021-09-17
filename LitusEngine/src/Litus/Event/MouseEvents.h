@@ -9,10 +9,10 @@ namespace LT
 	public:
 		MouseMovedEvent(float x, float y) :
 			m_mouseX(x), m_mouseY(y) {}
-		float getX() const { return m_mouseX; }
-		float getY() const { return m_mouseY; }
+		float GetX() const { return m_mouseX; }
+		float GetY() const { return m_mouseY; }
 
-		std::string toString() const override
+		std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseMovedEvent: " << m_mouseX << ", " << m_mouseY;
@@ -31,10 +31,10 @@ namespace LT
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset) :
 			m_xOffset(xOffset), m_yOffset(yOffset) {}
-		float getXOffset() const { return m_xOffset; }
+		float GetXOffset() const { return m_xOffset; }
 		float getYOffset() const { return m_yOffset; }
 
-		std::string toString() const override
+		std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseScrolledEvent: " << m_xOffset << ", " << m_yOffset;
@@ -51,7 +51,7 @@ namespace LT
 	class LAPI MouseButtonEvent : public Event
 	{
 	public:
-		int getMouseButton() const { return m_button; }
+		int GetMouseButton() const { return m_button; }
 		EVENT_CLASS_CATEGORY(MouseButtonEventCategory | MouseEvent);
 	protected:
 		MouseButtonEvent(int button) :
@@ -65,7 +65,7 @@ namespace LT
 	public:
 		MouseButtonPressedEvent(int button) :
 			MouseButtonEvent(button) {}
-		std::string toString() const override
+		std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonPressedEvent: " << m_button;
@@ -79,7 +79,7 @@ namespace LT
 	public:
 		MouseButtonReleasedEvent(int button) :
 			MouseButtonEvent(button) {}
-		std::string toString() const override
+		std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonReleasedEvent: " << m_button;

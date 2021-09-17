@@ -11,7 +11,7 @@ public:
 	Sandbox()
 	{
 		std::cout << "Sandbox app!!\n";
-		pushLayer(new ExampleLayer());
+		PushLayer(new ExampleLayer());
 	}
 	~Sandbox()
 	{

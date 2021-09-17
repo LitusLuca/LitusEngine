@@ -11,10 +11,10 @@ namespace LT {
 		{
 		}
 
-		unsigned int getWidth() const { return m_width; }
-		unsigned int getHeight() const { return m_height; }
+		unsigned int GetWidth() const { return m_width; }
+		unsigned int GetHeight() const { return m_height; }
 
-		std::string toString() const override
+		std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "WindowResizeEvent: " << m_width << ", " << m_height;

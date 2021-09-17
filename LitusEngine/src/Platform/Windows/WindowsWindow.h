@@ -11,20 +11,20 @@ namespace LT {
         WindowsWindow(const WindowProps& l_props);
         virtual ~WindowsWindow();
 
-        void onUpdate() override;
+        void OnUpdate() override;
 
-        unsigned int getWidth() const { return m_data.Width; }
-        unsigned int getHeight() const { return m_data.Height; }
+        unsigned int GetWidth() const { return m_data.Width; }
+        unsigned int GetHeight() const { return m_data.Height; }
 
-        void setEventCallback(const EventCallBackFn& callback) override { m_data.EventCallback = callback; }
-        void setVSync(bool enabled) override;
-        bool isVSync() const override;
+        void SetEventCallback(const EventCallBackFn& callback) override { m_data.EventCallback = callback; }
+        void SetVSync(bool enabled) override;
+        bool IsVSync() const override;
 
-        void* getNativeWindow() const override { return m_window; }
+        void* GetNativeWindow() const override { return m_window; }
 
     private:
-        virtual void init(const WindowProps& l_props);
-        virtual void shutdown();
+        virtual void Init(const WindowProps& l_props);
+        virtual void Shutdown();
     private:
         GLFWwindow* m_window;
         GraphicsContext* m_context;

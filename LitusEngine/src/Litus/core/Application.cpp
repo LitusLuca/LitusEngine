@@ -11,11 +11,11 @@ namespace LT {
 	{
 		s_Instance = this;
 
-		m_window = std::unique_ptr<Window>(Window::create());
-		m_window->setEventCallback(LT_BIND_EVENT_FN(Application::onEvent));
+		m_window = std::unique_ptr<Window>(Window::Create());
+		m_window->SetEventCallback(LT_BIND_EVENT_FN(Application::OnEvent));
 
 		m_ImGuiLayer = new ImGuiLayer();
-		pushOverlay(m_ImGuiLayer);
+		PushOverlay(m_ImGuiLayer);
 
 		float vertices[3 * 4] =
 		{
@@ -44,33 +44,33 @@ namespace LT {
 	{
 	}
 
-	void Application::onEvent(Event& ev)
+	void Application::OnEvent(Event& ev)
 	{
 		EventDispatcher dispatcher(ev);
-		dispatcher.Dispatch<WindowCloseEvent>(LT_BIND_EVENT_FN(Application::onWindowCloseEvent));
-		dispatcher.Dispatch<WindowResizeEvent>(LT_BIND_EVENT_FN(Application::onWindowResizeEvent));
+		dispatcher.Dispatch<WindowCloseEvent>(LT_BIND_EVENT_FN(Application::OnWindowCloseEvent));
+		dispatcher.Dispatch<WindowResizeEvent>(LT_BIND_EVENT_FN(Application::OnWindowResizeEvent));
 
 		for (auto it = m_layerStack.rbegin(); it != m_layerStack.rend(); ++it)
 		{
 			if (ev.Handled)
 				break;
-			(*it)->onEvent(ev);
+			(*it)->OnEvent(ev);
 		}
 	}
 
-	void Application::pushLayer(Layer* layer)
+	void Application::PushLayer(Layer* layer)
 	{
-		m_layerStack.pushLayer(layer);
-		layer->onAttach();
+		m_layerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
-	void Application::pushOverlay(Layer* overlay)
+	void Application::PushOverlay(Layer* overlay)
 	{
-		m_layerStack.pushOverlay(overlay);
-		overlay->onAttach();
+		m_layerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 
-	void Application::run()
+	void Application::Run()
 	{
 		while (m_running)
 		{
@@ -79,29 +79,29 @@ namespace LT {
 
 			for (Layer* layer : m_layerStack)
 			{
-				layer->onUpdate();
+				layer->OnUpdate();
 			}
 
 			glBindVertexArray(VAO);
-			glDrawElements(GL_TRIANGLES, m_indexBuffer->getCount(), GL_UNSIGNED_INT, 0);
+			glDrawElements(GL_TRIANGLES, m_indexBuffer->GetCount(), GL_UNSIGNED_INT, 0);
 
-			m_ImGuiLayer->begin();
+			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_layerStack)
 			{
-				layer->onImGuiRender();
+				layer->OnImGuiRender();
 			}
-			m_ImGuiLayer->end();
-			m_window->onUpdate();
+			m_ImGuiLayer->End();
+			m_window->OnUpdate();
 		}
 	}
-	bool Application::onWindowCloseEvent(WindowCloseEvent& e)
+	bool Application::OnWindowCloseEvent(WindowCloseEvent& e)
 	{
 		m_running = false;
 		return true;
 	}
-	bool Application::onWindowResizeEvent(WindowResizeEvent& e)
+	bool Application::OnWindowResizeEvent(WindowResizeEvent& e)
 	{
-		if (e.getWidth() == 0 || e.getHeight() == 0)
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{
 			m_minimized = true;
 			return false;

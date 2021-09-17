@@ -6,19 +6,16 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 {
 }
 
-void ExampleLayer::onUpdate()
+void ExampleLayer::OnUpdate()
 {
-	LT_INFO("ExampleLayer::onUpdate()");
-	auto [x, y] = LT::Input::getMousePos();
-	LT_TRACE("{0}, {1}", x, y);
 }
 
-void ExampleLayer::onEvent(LT::Event& ev)
+void ExampleLayer::OnEvent(LT::Event& ev)
 {
-	LT_TRACE("{0}", ev.toString());
+	
 }
 
-void ExampleLayer::onImGuiRender()
+void ExampleLayer::OnImGuiRender()
 {
 	ImGui::Begin("Test");
 	ImGui::Text("Hello");

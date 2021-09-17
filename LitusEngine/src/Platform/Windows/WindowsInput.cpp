@@ -8,33 +8,33 @@ namespace LT {
 
 	Input* Input::s_Instance = new WindowsInput();
 
-	bool WindowsInput::isKeyPressedImpl(int keycode)
+	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{
-		auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+		auto window = static_cast<GLFWwindow*>(Application::get().GetWindow().GetNativeWindow());
 		auto state = glfwGetKey(window, keycode);
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
-	bool WindowsInput::isMouseButtonPressedImpl(int button)
+	bool WindowsInput::IsMouseButtonPressedImpl(int button)
 	{
-		auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+		auto window = static_cast<GLFWwindow*>(Application::get().GetWindow().GetNativeWindow());
 		auto state = glfwGetMouseButton(window, button);
 		return state == GLFW_PRESS;
 	}
-	std::pair<float, float> WindowsInput::getMousePosImpl()
+	std::pair<float, float> WindowsInput::GetMousePosImpl()
 	{
-		auto window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
+		auto window = static_cast<GLFWwindow*>(Application::get().GetWindow().GetNativeWindow());
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 		return { (float)xpos, (float)ypos };
 	}
-	float WindowsInput::getMouseXImpl()
+	float WindowsInput::GetMouseXImpl()
 	{
-		auto [x, y] = getMousePosImpl();
+		auto [x, y] = GetMousePosImpl();
 		return (float)x;
 	}
-	float WindowsInput::getMouseYImpl()
+	float WindowsInput::GetMouseYImpl()
 	{
-		auto [x, y] = getMousePosImpl();
+		auto [x, y] = GetMousePosImpl();
 		return (float)y;
 	}
 }

@@ -21,23 +21,23 @@ namespace LT {
 		MouseEvent			= BIT(3),
 		MouseButtonEventCategory	= BIT(4)
 	};
-#define EVENT_CLASS_TYPE(type)	static EventType getStaticType(){ return EventType::##type; }\
-								virtual EventType getEventType() const override { return getStaticType(); }\
-								virtual const char* getName() const override { return #type; }
+#define EVENT_CLASS_TYPE(type)	static EventType GetStaticType(){ return EventType::##type; }\
+								virtual EventType GetEventType() const override { return GetStaticType(); }\
+								virtual const char* GetName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category) virtual int getCategoryFlags() const override { return category; }
+#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 	class LAPI Event
 	{
 	public:
-		virtual EventType getEventType() const = 0;
-		virtual const char* getName() const = 0;
-		virtual int getCategoryFlags() const = 0;
-		virtual std::string toString() const { return getName(); }
+		virtual EventType GetEventType() const = 0;
+		virtual const char* GetName() const = 0;
+		virtual int GetCategoryFlags() const = 0;
+		virtual std::string ToString() const { return GetName(); }
 		
-		bool isInCategory(EventCategory category)
+		bool IsInCategory(EventCategory category)
 		{
-			return getCategoryFlags() & category;
+			return GetCategoryFlags() & category;
 		}
 		bool Handled = false;
 	};
@@ -53,7 +53,7 @@ namespace LT {
 		template<typename T, typename F>
 		bool Dispatch(F& func)
 		{
-			if (m_event.getEventType() == T::getStaticType())
+			if (m_event.GetEventType() == T::GetStaticType())
 			{
 				m_event.Handled = func(static_cast<T&>(m_event));
 				return true;
@@ -67,6 +67,6 @@ namespace LT {
 
 	inline std::ostream& operator<<(std::ostream& os, const Event& e)
 	{
-		return os << e.toString();
+		return os << e.ToString();
 	}
 }

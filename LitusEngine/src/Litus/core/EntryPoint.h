@@ -8,7 +8,7 @@ int main(int argc, char** charv)
 {
 	LT::Log::init();
 	auto app = LT::createApplication();
-	app->run();
+	app->Run();
 	delete app;
 }
 

@@ -8,13 +8,13 @@ namespace LT {
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer() = default;
 
-		virtual void onAttach() {}
-		virtual void onDetach() {}
-		virtual void onUpdate() {}
-		virtual void onImGuiRender() {}
-		virtual void onEvent(Event& ev)  {}
+		virtual void OnAttach() {}
+		virtual void OnDetach() {}
+		virtual void OnUpdate() {}
+		virtual void OnImGuiRender() {}
+		virtual void OnEvent(Event& ev)  {}
 
-		const std::string& getName() const { return m_debugName; }
+		const std::string& GetName() const { return m_debugName; }
 
 	private:
 		std::string m_debugName;

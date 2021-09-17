@@ -11,7 +11,7 @@ namespace LT {
 	{
 		LT_CORE_ASSERT(m_windowHandle, "Window handle is NULL!")
 	}
-	void OpenGLContext::init()
+	void OpenGLContext::Init()
 	{
 		glfwMakeContextCurrent(m_windowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -21,7 +21,7 @@ namespace LT {
 		LT_CORE_INFO("OpenGL renderer: {0}", glGetString(GL_RENDERER));
 		LT_CORE_INFO("OpenGL version: {0}", glGetString(GL_VERSION));
 	}
-	void OpenGLContext::swapBuffers()
+	void OpenGLContext::SwapBuffers()
 	{
 		glfwSwapBuffers(m_windowHandle);
 	}

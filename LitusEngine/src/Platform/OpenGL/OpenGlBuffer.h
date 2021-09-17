@@ -9,8 +9,8 @@ namespace LT {
 		OpenGLVertexBuffer(float* vertices, uint32_t size);
 		~OpenGLVertexBuffer() override;
 
-		void bind() const override;
-		void unbind() const override;
+		void Bind() const override;
+		void Unbind() const override;
 	private:
 		uint32_t m_rendererID;
 	};
@@ -21,9 +21,9 @@ namespace LT {
 		OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
 		~OpenGLIndexBuffer() override;
 
-		void bind() const override;
-		void unbind() const override;
-		uint32_t getCount() const override { return m_count; }
+		void Bind() const override;
+		void Unbind() const override;
+		uint32_t GetCount() const override { return m_count; }
 	private:
 		uint32_t m_rendererID;
 		uint32_t m_count;

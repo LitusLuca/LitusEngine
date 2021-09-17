@@ -23,9 +23,9 @@ namespace LT {
 		KeyPressedEvent(int keyCode, int repeatCount) :
 			KeyEvent(keyCode), m_repeatCount(repeatCount) {}
 
-		int getRepeatCount() const { return m_repeatCount; }
+		int GetRepeatCount() const { return m_repeatCount; }
 
-		std::string toString() const override
+		std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "KeyPressedEvent: " << m_keyCode << " (" << m_repeatCount << " repeats)";
@@ -43,7 +43,7 @@ namespace LT {
 		KeyReleasedEvent(int keyCode) :
 			KeyEvent(keyCode) {}
 
-		std::string toString() const override
+		std::string ToString() const override
 		{
 			std::stringstream ss;
 			ss << "KeyReleasedEvent: " << m_keyCode;

@@ -16,21 +16,21 @@ namespace LT {
 		LT_CORE_ERROR("GLFW Error ({0}): {1}", error_code, description);
 	}
 
-	Window* Window::create(const WindowProps& l_props)
+	Window* Window::Create(const WindowProps& l_props)
 	{
 		return new WindowsWindow(l_props);
 	}
 	WindowsWindow::WindowsWindow(const WindowProps& l_props)
 	{
-		init(l_props);
+		Init(l_props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
-		shutdown();
+		Shutdown();
 	}
 
-	void WindowsWindow::init(const WindowProps& l_props)
+	void WindowsWindow::Init(const WindowProps& l_props)
 	{
 		m_data.Title = l_props.Title;
 		m_data.Width = l_props.Width;
@@ -48,10 +48,10 @@ namespace LT {
 		}
 		m_window = glfwCreateWindow((int)m_data.Width, (int)m_data.Height, m_data.Title.c_str(), nullptr, nullptr);
 		m_context = new OpenGLContext(m_window);
-		m_context->init();
+		m_context->Init();
 		
 		glfwSetWindowUserPointer(m_window, &m_data);
-		setVSync(true);
+		SetVSync(true);
 
 		//setting event callbacks:
 
@@ -133,16 +133,16 @@ namespace LT {
 			});
 	}
 
-	void WindowsWindow::shutdown()
+	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_window);
 	}
-	void WindowsWindow::onUpdate()
+	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		m_context->swapBuffers();
+		m_context->SwapBuffers();
 	}
-	void WindowsWindow::setVSync(bool enabled)
+	void WindowsWindow::SetVSync(bool enabled)
 	{
 		if (enabled)
 			glfwSwapInterval(1);
@@ -151,7 +151,7 @@ namespace LT {
 
 		m_data.VSync = enabled;
 	}
-	bool WindowsWindow::isVSync() const
+	bool WindowsWindow::IsVSync() const
 	{
 		return m_data.VSync;
 	}

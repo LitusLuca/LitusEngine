@@ -18,7 +18,7 @@ namespace LT {
 	{
 	}
 
-	void ImGuiLayer::onAttach()
+	void ImGuiLayer::OnAttach()
 	{
         // Setup Dear ImGui context
         IMGUI_CHECKVERSION();
@@ -36,7 +36,7 @@ namespace LT {
         //ImGui::StyleColorsClassic();
 
         Application& app = Application::get();
-        GLFWwindow* window = static_cast<GLFWwindow*>(app.getWindow().getNativeWindow());
+        GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
 
         // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
         ImGuiStyle& style = ImGui::GetStyle();
@@ -51,31 +51,31 @@ namespace LT {
         ImGui_ImplOpenGL3_Init("#version 410");
 	}
 
-    void ImGuiLayer::onDetach()
+    void ImGuiLayer::OnDetach()
     {
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
     }
 
-    void ImGuiLayer::onImGuiRender()
+    void ImGuiLayer::OnImGuiRender()
     {
         static bool show = true;
         ImGui::ShowDemoWindow(&show);
     }
 
-    void ImGuiLayer::begin()
+    void ImGuiLayer::Begin()
     {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
     }
 
-    void ImGuiLayer::end()
+    void ImGuiLayer::End()
     {
         ImGuiIO& io = ImGui::GetIO();
         Application& app = Application::get();
-        io.DisplaySize = ImVec2((float)app.getWindow().getWidth(), (float)app.getWindow().getHeight());
+        io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
         // Rendering
         ImGui::Render();
