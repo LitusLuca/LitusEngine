@@ -39,6 +39,28 @@ namespace LT {
 		glEnableVertexAttribArray(0);
 
 		m_indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+
+		std::string vertexSrc = R"(
+#version 330 core
+layout(location = 0) in vec3 a_Pos;
+
+void main() 
+{
+	gl_Position = vec4(a_Pos, 1.0);
+}
+
+)";
+		std::string fragmentSrc = R"(
+#version 330 core
+layout(location = 0) out vec4 color;
+
+void main() 
+{
+	color = vec4(1.0, 0.5, 0.2, 1.0);
+}
+
+)";
+		m_shader.reset(Shader::Create("TestShader", vertexSrc, fragmentSrc));
 	}
 	Application::~Application()
 	{
@@ -77,6 +99,7 @@ namespace LT {
 			glClearColor(0.f, 1.f, 1.f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			m_shader->Bind();
 			for (Layer* layer : m_layerStack)
 			{
 				layer->OnUpdate();

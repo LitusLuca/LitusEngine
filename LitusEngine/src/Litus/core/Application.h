@@ -9,7 +9,7 @@
 
 #include "Litus\Renderer\Buffer.h"
 
-#include "Litus\Renderer\Buffer.h"
+#include "Litus\Renderer\Shader.h"
 
 namespace LT {
 	class LAPI Application
@@ -47,6 +47,7 @@ namespace LT {
 
 		std::unique_ptr<VertexBuffer> m_vertexBuffer;
 		std::unique_ptr<IndexBuffer> m_indexBuffer;
+		std::unique_ptr<Shader> m_shader;
 	};
 
 	Application* createApplication();
