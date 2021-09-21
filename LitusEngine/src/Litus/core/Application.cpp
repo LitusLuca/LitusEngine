@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "Application.h"
 
+#include "Litus\Renderer\Renderer.h"
+
 #include <glad\glad.h>
+#include <GLFW\glfw3.h>
 
 namespace LT {
 
@@ -9,44 +12,58 @@ namespace LT {
 
 	Application::Application()
 	{
+		LT_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
 		m_window = std::unique_ptr<Window>(Window::Create());
 		m_window->SetEventCallback(LT_BIND_EVENT_FN(Application::OnEvent));
 
+		Renderer::Init();
+
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 
-		float vertices[3 * 4] =
-		{
-			-0.5f, -0.5f, 0.f, 
-			0.5f, -0.5f, 0.f,
-			-0.5f, 0.5f, 0.f,
-			0.5f, 0.5f, 0.5f
-		};
+		m_vertexArray.reset(VertexArray::Create());
 
-		unsigned int indices[3*2] =
+		float vertices[7 * 4] =
+		{
+			-0.5f, -0.5f, 0.f, 0.5f, 0.1f, 0.4f, 1.f,
+			0.5f, -0.5f, 0.f,  0.2f, 0.5f, 0.4f, 1.f,
+			-0.5f, 0.5f, 0.f,  0.3f, 0.7f, 0.2f, 1.f,
+			0.5f, 0.5f, 0.5f,  0.6f, 0.2f, 0.2f, 1.f
+		};
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+
+		BufferLayout layout = {
+			{ShaderDataType::Float3, "a_Pos"},
+			{ShaderDataType::Float4, "a_Color"}
+		};
+		vertexBuffer->SetLayout(layout);
+		m_vertexArray->AddVertexBuffer(vertexBuffer);
+
+		uint32_t indices[3*2] =
 		{
 			0,1,2,
 			2,1,3
 		};
-
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
-
-		m_vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-		glEnableVertexAttribArray(0);
-
-		m_indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		m_vertexArray->SetIndexBuffer(indexBuffer);
 
 		std::string vertexSrc = R"(
 #version 330 core
 layout(location = 0) in vec3 a_Pos;
+layout(location = 1) in vec4 a_Color;
+
+uniform float u_Offset;
+
+out vec4 v_Color;
 
 void main() 
 {
-	gl_Position = vec4(a_Pos, 1.0);
+	v_Color = a_Color;
+	gl_Position = vec4(a_Pos + u_Offset, 1.0);
 }
 
 )";
@@ -54,9 +71,11 @@ void main()
 #version 330 core
 layout(location = 0) out vec4 color;
 
+in vec4 v_Color;
+
 void main() 
 {
-	color = vec4(1.0, 0.5, 0.2, 1.0);
+	color = v_Color;
 }
 
 )";
@@ -96,17 +115,18 @@ void main()
 	{
 		while (m_running)
 		{
-			glClearColor(0.f, 1.f, 1.f, 1.f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.f, 0.6f, 0.4f, 1.f });
+			RenderCommand::Clear();
 
 			m_shader->Bind();
+			m_shader->SetFloat("u_Offset", (float)sin(glfwGetTime()));
+			Renderer::Submit(m_shader, m_vertexArray);
+
 			for (Layer* layer : m_layerStack)
 			{
 				layer->OnUpdate();
 			}
 
-			glBindVertexArray(VAO);
-			glDrawElements(GL_TRIANGLES, m_indexBuffer->GetCount(), GL_UNSIGNED_INT, 0);
 
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_layerStack)

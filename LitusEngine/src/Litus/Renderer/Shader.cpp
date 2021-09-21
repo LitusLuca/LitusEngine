@@ -10,8 +10,8 @@ namespace LT {
 	{
 		switch (Renderer::GetApi())
 		{
-		case RendererAPI::None: LT_CORE_ASSERT(false, "None Renderer is not supported!");
-		case RendererAPI::OpenGL: return new OpenGLShader(name, vertexSrc, fragmentSrc);
+		case RenderAPI::API::None: LT_CORE_ASSERT(false, "None Renderer is not supported!");
+		case RenderAPI::API::OpenGL: return new OpenGLShader(name, vertexSrc, fragmentSrc);
 		}
 
 		LT_CORE_ASSERT(false, "Unknown RenderAPI!");

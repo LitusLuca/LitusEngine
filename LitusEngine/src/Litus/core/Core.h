@@ -15,11 +15,11 @@
 #endif // LT_PLATFORM_WINDOWS
 
 #ifdef LT_DEBUG
-#define HZ_ENABLE_ASSERTS
+#define LT_ENABLE_ASSERTS
 #endif // LT_DEBUG
 
 
-#ifdef HZ_ENABLE_ASSERTS
+#ifdef LT_ENABLE_ASSERTS
 #define LT_ASSERT(x, ...) { if(!(x)){LT_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); }}
 #define LT_CORE_ASSERT(x, ...) { if(!(x)){LT_CORE_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #else

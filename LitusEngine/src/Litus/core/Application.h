@@ -7,8 +7,7 @@
 #include "Litus\Event\ApplicationEvents.h"
 #include "Litus\ImGui\ImGuiLayer.h"
 
-#include "Litus\Renderer\Buffer.h"
-
+#include "Litus\Renderer\VertexArray.h"
 #include "Litus\Renderer\Shader.h"
 
 namespace LT {
@@ -43,11 +42,8 @@ namespace LT {
 	private:
 		static Application* s_Instance;
 
-		unsigned int VAO;
-
-		std::unique_ptr<VertexBuffer> m_vertexBuffer;
-		std::unique_ptr<IndexBuffer> m_indexBuffer;
-		std::unique_ptr<Shader> m_shader;
+		std::shared_ptr<VertexArray> m_vertexArray;
+		std::shared_ptr<Shader> m_shader;
 	};
 
 	Application* createApplication();
