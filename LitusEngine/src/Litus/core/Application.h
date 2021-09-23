@@ -41,9 +41,6 @@ namespace LT {
 
 	private:
 		static Application* s_Instance;
-
-		std::shared_ptr<VertexArray> m_vertexArray;
-		std::shared_ptr<Shader> m_shader;
 	};
 
 	Application* createApplication();

@@ -8,3 +8,6 @@
 #include "Litus\core\Input.h"
 #include "Litus\core\KeyCodes.h"
 #include "Litus\core\MouseButtonCodes.h"
+
+#include "Litus\Renderer\Renderer.h"
+#include "Litus\Renderer\PerspectiveCamera.h"

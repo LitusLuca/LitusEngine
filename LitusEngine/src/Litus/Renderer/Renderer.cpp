@@ -17,9 +17,9 @@ namespace LT {
 	{
 		RenderCommand::SetViewPort(0, 0, width, height);
 	}
-	void Renderer::BeginScene()
+	void Renderer::BeginScene(glm::mat4 viewProjectionMatrix)
 	{
-		//TODO Set Camera
+		s_sceneData->ViewProjectionMatrix = viewProjectionMatrix;
 	}
 	void Renderer::EndScene()
 	{
@@ -30,6 +30,7 @@ namespace LT {
 	{
 		shader->Bind();
 		//TODO Set SceneData
+		shader->SetMat4("u_viewProjection", s_sceneData->ViewProjectionMatrix);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
