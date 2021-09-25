@@ -21,6 +21,7 @@ namespace LT {
         bool IsVSync() const override;
 
         void* GetNativeWindow() const override { return m_window; }
+        float GetTime() const override { return (float)glfwGetTime(); }
 
     private:
         virtual void Init(const WindowProps& l_props);

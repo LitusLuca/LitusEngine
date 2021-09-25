@@ -38,7 +38,7 @@ namespace LT {
 		ImGuiLayer* m_ImGuiLayer;
 		LayerStack m_layerStack;
 		
-
+		float m_lastFrame = 0.f;
 	private:
 		static Application* s_Instance;
 	};

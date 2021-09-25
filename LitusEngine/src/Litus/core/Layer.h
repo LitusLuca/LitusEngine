@@ -1,5 +1,6 @@
 #pragma once
 #include "Litus\Event\Event.h"
+#include "Time.h"
 
 namespace LT {
 	class LAPI Layer
@@ -10,7 +11,7 @@ namespace LT {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Time dT) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& ev)  {}
 

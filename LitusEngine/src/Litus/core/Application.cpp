@@ -2,6 +2,7 @@
 #include "Application.h"
 
 #include "Litus\Renderer\Renderer.h"
+#include "Time.h"
 
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
@@ -58,10 +59,13 @@ namespace LT {
 	{
 		while (m_running)
 		{
-
+			float time = m_window->GetTime();
+			Time dT = time - m_lastFrame;
+			m_lastFrame = time;
+			
 			for (Layer* layer : m_layerStack)
 			{
-				layer->OnUpdate();
+				layer->OnUpdate(dT);
 			}
 
 

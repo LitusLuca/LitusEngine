@@ -26,11 +26,11 @@ namespace LT {
 
 	}
 
-	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray)
+	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
-		//TODO Set SceneData
 		shader->SetMat4("u_viewProjection", s_sceneData->ViewProjectionMatrix);
+		shader->SetMat4("u_modelMatrix", transform);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

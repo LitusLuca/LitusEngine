@@ -4,6 +4,7 @@
 #include "Litus\core\Application.h"
 #include "Litus\core\Log.h"
 #include "Litus\core\Layer.h"
+#include "Litus\core\Time.h"
 
 #include "Litus\core\Input.h"
 #include "Litus\core\KeyCodes.h"
