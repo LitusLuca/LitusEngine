@@ -33,7 +33,7 @@ namespace LT {
 		std::string Name;
 		ShaderDataType Type;
 		uint32_t Size;
-		uint32_t Offset;
+		size_t Offset;
 		bool Normalize;
 		BufferElement() = default;
 		BufferElement(ShaderDataType type, const std::string& name, bool normalize = false) :
@@ -108,7 +108,7 @@ namespace LT {
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout) = 0;
 
-		static VertexBuffer* Create(float* vertices,uint32_t size);
+		static Ref<VertexBuffer> Create(float* vertices,uint32_t size);
 	};
 
 	class IndexBuffer
@@ -120,6 +120,6 @@ namespace LT {
 		virtual void Unbind() const = 0;
 		virtual uint32_t GetCount() const = 0;
 
-		static IndexBuffer* Create(uint32_t* indices, uint32_t count);
+		static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
 	};
 }

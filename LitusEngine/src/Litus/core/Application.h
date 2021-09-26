@@ -32,7 +32,7 @@ namespace LT {
 		bool OnWindowResizeEvent(WindowResizeEvent& e);
 
 
-		std::unique_ptr<Window> m_window;
+		Scope<Window> m_window;
 		bool m_minimized = false;
 		bool m_running = true;
 		ImGuiLayer* m_ImGuiLayer;

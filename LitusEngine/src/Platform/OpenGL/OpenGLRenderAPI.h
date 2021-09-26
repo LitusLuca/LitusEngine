@@ -11,6 +11,6 @@ namespace LT {
 		void SetClearColor(const glm::vec4 & color) override;
 		void Clear() override;
 
-		void DrawIndexed(const std::shared_ptr<VertexArray>&vertexArray, uint32_t count = 0) override;
+		void DrawIndexed(const Ref<VertexArray>&vertexArray, uint32_t count = 0) override;
 	};
 }

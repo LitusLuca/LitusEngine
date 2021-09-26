@@ -6,12 +6,12 @@
 
 
 namespace LT {
-	Shader* Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
 		switch (Renderer::GetApi())
 		{
 		case RenderAPI::API::None: LT_CORE_ASSERT(false, "None Renderer is not supported!");
-		case RenderAPI::API::OpenGL: return new OpenGLShader(name, vertexSrc, fragmentSrc);
+		case RenderAPI::API::OpenGL: return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
 		}
 
 		LT_CORE_ASSERT(false, "Unknown RenderAPI!");

@@ -2,5 +2,5 @@
 #include "RenderCommand.h"
 
 namespace LT {
-	std::unique_ptr<RenderAPI> RenderCommand::s_renderAPI = RenderAPI::Create();
+	Scope<RenderAPI> RenderCommand::s_renderAPI = RenderAPI::Create();
 }

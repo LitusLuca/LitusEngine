@@ -5,7 +5,7 @@
 #include <iostream>
 ExampleLayer::ExampleLayer() : Layer("Example")
 {
-	m_vertexArray.reset(LT::VertexArray::Create());
+	m_vertexArray = LT::VertexArray::Create();
 
 	float vertices[7 * 8] =
 	{
@@ -18,8 +18,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 		-0.5f,	0.5f,	-0.5f,  0.3f, 0.7f, 0.2f, 1.f,
 		0.5f,	0.5f,	-0.5f,  0.6f, 0.2f, 0.2f, 1.f
 	};
-	std::shared_ptr<LT::VertexBuffer> vertexBuffer;
-	vertexBuffer.reset(LT::VertexBuffer::Create(vertices, sizeof(vertices)));
+	LT::Ref<LT::VertexBuffer> vertexBuffer = LT::VertexBuffer::Create(vertices, sizeof(vertices));
 
 	LT::BufferLayout layout = {
 		{LT::ShaderDataType::Float3, "a_Pos"},
@@ -43,8 +42,7 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 		1,5,3, //Right
 		5,3,7
 	};
-	std::shared_ptr<LT::IndexBuffer> indexBuffer;
-	indexBuffer.reset(LT::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+	LT::Ref<LT::IndexBuffer> indexBuffer = LT::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 	m_vertexArray->SetIndexBuffer(indexBuffer);
 
 	std::string vertexSrc = R"(
@@ -76,8 +74,8 @@ void main()
 }
 
 )";
-	m_shader.reset(LT::Shader::Create("TestShader", vertexSrc, fragmentSrc));
-	m_camera.reset(new LT::PerspectiveCamera(45.f, (float)LT::Application::get().GetWindow().GetWidth() / (float)LT::Application::get().GetWindow().GetHeight(), 0.1f, 100.f));
+	m_shader = LT::Shader::Create("TestShader", vertexSrc, fragmentSrc);
+	m_camera = LT::CreateRef<LT::PerspectiveCamera>(45.f, (float)LT::Application::get().GetWindow().GetWidth() / (float)LT::Application::get().GetWindow().GetHeight(), 0.1f, 100.f);
 }
 
 void ExampleLayer::OnUpdate(LT::Time dT)

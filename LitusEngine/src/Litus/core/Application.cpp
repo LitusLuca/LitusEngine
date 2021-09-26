@@ -16,7 +16,7 @@ namespace LT {
 		LT_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
-		m_window = std::unique_ptr<Window>(Window::Create());
+		m_window = Scope<Window>(Window::Create());
 		m_window->SetEventCallback(LT_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();

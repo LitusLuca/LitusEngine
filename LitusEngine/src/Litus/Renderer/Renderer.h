@@ -16,7 +16,7 @@ namespace LT {
 		static void BeginScene(glm::mat4 viewProjectionMatrix);
 		static void EndScene();
 
-		static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform);
+		static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform);
 
 		static RenderAPI::API GetApi() { return RenderAPI::GetAPI(); }
 

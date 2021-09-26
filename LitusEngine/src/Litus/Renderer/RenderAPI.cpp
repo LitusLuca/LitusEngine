@@ -5,7 +5,7 @@
 namespace LT {
 	RenderAPI::API RenderAPI::s_API = RenderAPI::API::OpenGL;
 
-	std::unique_ptr<RenderAPI> RenderAPI::Create()
+	Scope<RenderAPI> RenderAPI::Create()
 	{
 		switch (s_API)
 		{

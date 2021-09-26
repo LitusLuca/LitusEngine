@@ -25,11 +25,11 @@ namespace LT {
 			s_renderAPI->Clear();
 		}
 
-		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t count = 0)
+		static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t count = 0)
 		{
 			s_renderAPI->DrawIndexed(vertexArray, count);
 		}
 	private:
-		static std::unique_ptr<RenderAPI> s_renderAPI;
+		static Scope<RenderAPI> s_renderAPI;
 	};
 }
