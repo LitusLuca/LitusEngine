@@ -18,6 +18,13 @@ namespace LT {
 	class LAPI Window
 	{
 	public:
+		enum class CursorMode
+		{
+			Normal = 0,
+			Hidden,
+			Disabled
+		};
+	public:
 		using EventCallBackFn = std::function<void(Event&)>;
 
 		virtual ~Window() {}
@@ -29,6 +36,7 @@ namespace LT {
 		virtual void SetEventCallback(const EventCallBackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
+		virtual void SetCursorMode(CursorMode mode) = 0;
 
 		virtual void* GetNativeWindow() const = 0;
 		virtual float GetTime() const = 0;

@@ -12,3 +12,8 @@
 
 #include "Litus\Renderer\Renderer.h"
 #include "Litus\Renderer\PerspectiveCamera.h"
+#include "Litus\Renderer\Texture.h"
+
+#include "Litus\Event\KeyEvents.h"
+#include "Litus\Event\MouseEvents.h"
+#include "Litus\Event\ApplicationEvents.h"

@@ -9,7 +9,7 @@ namespace LT {
 	{
 		switch (Renderer::GetApi())
 		{
-		case RenderAPI::API::None: LT_CORE_ASSERT(false, "None Renderer is not supported!");
+		case RenderAPI::API::None: LT_CORE_ASSERT(false, "None Renderer is not supported!"); return nullptr;
 		case RenderAPI::API::OpenGL: return CreateRef<OpenGLVertexArray>();
 		}
 		LT_CORE_ASSERT(false, "Unknown RenderAPI!");

@@ -19,6 +19,7 @@ namespace LT {
         void SetEventCallback(const EventCallBackFn& callback) override { m_data.EventCallback = callback; }
         void SetVSync(bool enabled) override;
         bool IsVSync() const override;
+        void SetCursorMode(Window::CursorMode mode) override;
 
         void* GetNativeWindow() const override { return m_window; }
         float GetTime() const override { return (float)glfwGetTime(); }
@@ -35,6 +36,7 @@ namespace LT {
             std::string Title;
             unsigned int Width, Height;
             bool VSync;
+            Window::CursorMode CursorMode;
 
             EventCallBackFn EventCallback;
         };

@@ -8,7 +8,7 @@ namespace LT {
 	{
 	public:
 		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
-
+		OpenGLShader(const std::string& path);
 		~OpenGLShader();
 
 		void Bind() override;
@@ -27,6 +27,7 @@ namespace LT {
 	private:
 		std::unordered_map<GLenum, std::string>	PreProcess(const std::string& source);
 		void Compile(const std::unordered_map<GLenum, std::string>& shaderSource);
+		std::string ReadFile(const std::string& path);
 
 	private:
 		uint32_t m_RendererID;

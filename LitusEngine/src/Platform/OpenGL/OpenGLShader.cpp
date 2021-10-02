@@ -3,12 +3,37 @@
 #include <glad\glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
+static GLenum ShaderTypeFromString(const std::string& type)
+{
+	
+	if (type == "vertex")
+		return GL_VERTEX_SHADER;
+	if (type == "fragment")
+		return GL_FRAGMENT_SHADER;
+	LT_CORE_ASSERT(false, "Unknown ShaderType!");
+	return 0;
+}
+
 LT::OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 {
 	std::unordered_map<GLenum, std::string> source;
 	source[GL_VERTEX_SHADER] = vertexSrc;
 	source[GL_FRAGMENT_SHADER] = fragmentSrc;
 	Compile(source);
+}
+
+LT::OpenGLShader::OpenGLShader(const std::string& path)
+{
+	std::string source = ReadFile(path);
+	auto shaderSource = PreProcess(source);
+
+	Compile(shaderSource);
+
+	auto lastSlash = path.find_last_of("/\\");
+	lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
+	auto lastDot = path.find('.');
+	auto count = lastDot == std::string::npos ? path.size() - lastSlash : lastDot - lastSlash;
+	m_name = path.substr(lastSlash, count);
 }
 
 LT::OpenGLShader::~OpenGLShader()
@@ -63,7 +88,27 @@ void LT::OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)
 
 std::unordered_map<GLenum, std::string> LT::OpenGLShader::PreProcess(const std::string& source)
 {
-	return std::unordered_map<GLenum, std::string>();
+	std::unordered_map<GLenum, std::string> shaderSource;
+
+	const char* typeToken = "#type";
+	size_t typeTokenLenght = strlen(typeToken);
+	size_t pos = source.find(typeToken, 0);
+	while (pos != std::string::npos)
+	{
+		size_t eol = source.find_first_of("\r\n", pos);
+		LT_CORE_ASSERT(eol != std::string::npos, "Syntax Error!");
+		size_t begin = pos + typeTokenLenght + 1;
+		std::string type = source.substr(begin, eol - begin);
+		LT_CORE_ASSERT(ShaderTypeFromString(type), "Invallid shader type!");
+
+		size_t nextLinePos = source.find_first_not_of("\r\n", eol);
+		LT_CORE_ASSERT(nextLinePos != std::string::npos, "Syntax Error!");
+		pos = source.find(typeToken, nextLinePos);
+
+		shaderSource[ShaderTypeFromString(type)] = (pos == std::string::npos) ? source.substr(nextLinePos) : source.substr(nextLinePos, pos - nextLinePos);
+	}
+
+	return shaderSource;
 }
 
 void LT::OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSource)
@@ -131,4 +176,31 @@ void LT::OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& sh
 		glDetachShader(program, shaderID);
 		glDeleteShader(shaderID);
 	}
+}
+
+std::string LT::OpenGLShader::ReadFile(const std::string& path)
+{
+	std::string result;
+	std::ifstream in(path, std::ios_base::in | std::ios_base::binary);
+	if (in)
+	{
+		in.seekg(0, std::ios::end);
+		size_t size = in.tellg();
+		if (size != -1)
+		{
+			result.resize(size);
+			in.seekg(0, std::ios::beg);
+			in.read(&result[0], size);
+		}
+		else
+		{
+			LT_CORE_ERROR("Could not read file: {0}", path);
+		}
+	}
+	else
+	{
+		LT_CORE_ERROR("Could not open file: {0}", path);
+	}
+
+	return result;
 }

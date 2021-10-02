@@ -7,75 +7,58 @@ ExampleLayer::ExampleLayer() : Layer("Example")
 {
 	m_vertexArray = LT::VertexArray::Create();
 
-	float vertices[7 * 8] =
-	{
-		-0.5f,	-0.5f,	0.5f,	0.5f, 0.1f, 0.4f, 1.f,
-		0.5f,	-0.5f,	0.5f,	0.2f, 0.5f, 0.4f, 1.f,
-		-0.5f,	0.5f,	0.5f,	0.3f, 0.7f, 0.2f, 1.f,
-		0.5f,	0.5f,	0.5f,	0.6f, 0.2f, 0.2f, 1.f,
-		-0.5f,	-0.5f,	-0.5f,	0.5f, 0.1f, 0.4f, 1.f,
-		0.5f,	-0.5f,	-0.5f,  0.2f, 0.5f, 0.4f, 1.f,
-		-0.5f,	0.5f,	-0.5f,  0.3f, 0.7f, 0.2f, 1.f,
-		0.5f,	0.5f,	-0.5f,  0.6f, 0.2f, 0.2f, 1.f
+	float vertices[7 * 16] =
+	{   //pos						//Color						//TexCoord
+		-1.f,	-1.f,	-1.f,	0.f, 0.f,
+		-1.f,	-1.f,	1.f,	0.f, 1.f,
+		-1.f,	1.f,	1.f,	1.f, 1.f,
+		-1.f,	1.f,	-1.f,	1.f, 0.f,
+		-1.f,	1.f,	-1.f,	0.f, 0.f,
+		-1.f,	1.f,	1.f,	0.f, 1.f,
+		1.f,	1.f,	1.f,	1.f, 1.f,
+		1.f,	1.f,	-1.f,	1.f, 0.f,
+		1.f,	-1.f,	1.f,	0.f, 1.f,
+		1.f,	-1.f,	-1.f,	0.f, 0.f,
+		1.f,	-1.f,	-1.f,	1.f, 0.f,
+		1.f,	-1.f,	1.f,	1.f, 1.f,
+		-1.f,	1.f,	-1.f,	0.f, 1.f,
+		1.f,	1.f,	-1.f,	1.f, 1.f,
+		-1.f,	-1.f,	1.f,	0.f, 0.f,
+		1.f,	-1.f,	1.f,	1.f, 0.f
 	};
 	LT::Ref<LT::VertexBuffer> vertexBuffer = LT::VertexBuffer::Create(vertices, sizeof(vertices));
 
 	LT::BufferLayout layout = {
 		{LT::ShaderDataType::Float3, "a_Pos"},
-		{LT::ShaderDataType::Float4, "a_Color"}
+		{LT::ShaderDataType::Float2, "a_TexCoord"}
 	};
 	vertexBuffer->SetLayout(layout);
 	m_vertexArray->AddVertexBuffer(vertexBuffer);
 
-	uint32_t indices[6 * 6] =
+	uint32_t indices[12 * 3] =
 	{
-		0,1,2, //Front
-		2,1,3,
-		4,5,6, //Back
-		6,5,7, 
-		2,3,6, //Top
-		3,7,6,
-		4,5,0, //Botton
-		0,5,1,
-		4,0,6, //Left
-		6,0,2,
-		1,5,3, //Right
-		5,3,7
+		0, 1, 2,
+		0, 2, 3,
+		4, 5, 6,
+		4, 6, 7,
+		7, 6, 8,
+		7, 8, 9,
+		10, 11, 1,
+		10, 1, 0,
+		12, 13, 10,
+		12, 10, 0,
+		6, 5, 14,
+		6, 14, 15,
 	};
 	LT::Ref<LT::IndexBuffer> indexBuffer = LT::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
 	m_vertexArray->SetIndexBuffer(indexBuffer);
 
-	std::string vertexSrc = R"(
-#version 330 core
-layout(location = 0) in vec3 a_Pos;
-layout(location = 1) in vec4 a_Color;
-
-uniform mat4 u_viewProjection;
-uniform mat4 u_modelMatrix;
-
-out vec4 v_Color;
-
-void main() 
-{
-	v_Color = a_Color;
-	gl_Position = u_viewProjection * u_modelMatrix * vec4(a_Pos, 1.0);
-}
-
-)";
-	std::string fragmentSrc = R"(
-#version 330 core
-layout(location = 0) out vec4 color;
-
-in vec4 v_Color;
-
-void main() 
-{
-	color = v_Color;
-}
-
-)";
-	m_shader = LT::Shader::Create("TestShader", vertexSrc, fragmentSrc);
+	m_shader = LT::Shader::Create("assets/shaders/textureShader.glsl");
 	m_camera = LT::CreateRef<LT::PerspectiveCamera>(45.f, (float)LT::Application::get().GetWindow().GetWidth() / (float)LT::Application::get().GetWindow().GetHeight(), 0.1f, 100.f);
+
+	m_texture = LT::Texture2D::Create("assets/textures/container2.png");
+
+	LT::Application::get().GetWindow().SetCursorMode(LT::Window::CursorMode::Disabled);
 }
 
 void ExampleLayer::OnUpdate(LT::Time dT)
@@ -92,32 +75,56 @@ void ExampleLayer::OnUpdate(LT::Time dT)
 		m_time += (float)dT;
 		m_frame++;
 	}
+
+	if (LT::Input::IsKeyPressed(LT_KEY_W))
+		m_pos += m_dir * dT.GetSeconds();
+	if (LT::Input::IsKeyPressed(LT_KEY_S))
+		m_pos -= m_dir * dT.GetSeconds();
+	if (LT::Input::IsKeyPressed(LT_KEY_A))
+		m_pos -= glm::normalize(glm::cross(m_dir, glm::vec3(0.f, 1.f, 0.f))) * dT.GetSeconds();
+	if (LT::Input::IsKeyPressed(LT_KEY_D))
+		m_pos += glm::normalize(glm::cross(m_dir, glm::vec3(0.f, 1.f, 0.f))) * dT.GetSeconds();
 		
 	LT::RenderCommand::SetClearColor({ 0.f, 0.6f, 0.4f, 1.f });
 	LT::RenderCommand::Clear();
 
-	m_camera->SetPosition({ m_pos[0], m_pos[1], m_pos[2] });
-	m_camera->SetRotation(m_yaw, m_pitch);
+	m_camera->SetPosition(m_pos);
+	//m_camera->SetRotation(m_yaw, m_pitch);
 	LT::Renderer::BeginScene(m_camera->GetViewProjectionMatrix());
+	m_texture->Bind();
 	LT::Renderer::Submit(m_shader, m_vertexArray, glm::translate(glm::mat4(1.f), { 1.f, 1.f, 1.f }));
 	LT::Renderer::EndScene();
 }
 
 void ExampleLayer::OnEvent(LT::Event& ev)
 {
-	
+	LT::EventDispatcher dispatcher(ev);
+	auto onMouse = [this](LT::MouseMovedEvent& ev) {
+		float xOffset = ev.GetX() - m_mousePos.x;
+		float yOffset = m_mousePos.y - ev.GetY();
+		m_yaw += m_sens * xOffset;
+		m_pitch += m_sens * yOffset;
+		m_camera->SetRotation(m_yaw, m_pitch);
+		RecalculateDir();
+		m_mousePos.x = ev.GetX();
+		m_mousePos.y = ev.GetY();
+		return true;
+	};
+	dispatcher.Dispatch<LT::MouseMovedEvent>(onMouse);
 }
 
 void ExampleLayer::OnImGuiRender()
 {
-	ImGui::Begin("Camera Props");
-	ImGui::DragFloat3("Camera Position", m_pos, 0.01f);
-	ImGui::DragFloat("Yaw", &m_yaw);
-	ImGui::DragFloat("Pitch", &m_pitch);
-	ImGui::End();
-
 	ImGui::SetNextWindowBgAlpha(0.35f);
 	ImGui::Begin("Overlay", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoMove);
 	ImGui::Text(" Hi!\n Fps: %i", m_fps);
+	ImGui::Text("yaw: %.1f pitch: %.1f", m_yaw, m_pitch);
 	ImGui::End();
+}
+
+void ExampleLayer::RecalculateDir()
+{
+	m_dir.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+	m_dir.y = sin(glm::radians(m_pitch));
+	m_dir.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
 }

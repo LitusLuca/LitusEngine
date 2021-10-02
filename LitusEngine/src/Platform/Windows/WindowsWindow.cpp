@@ -131,6 +131,8 @@ namespace LT {
 				MouseMovedEvent ev((float)xPos, (float)yPos);
 				data.EventCallback(ev);
 			});
+
+		m_data.CursorMode = Window::CursorMode::Normal;
 	}
 
 	void WindowsWindow::Shutdown()
@@ -154,5 +156,18 @@ namespace LT {
 	bool WindowsWindow::IsVSync() const
 	{
 		return m_data.VSync;
+	}
+	void WindowsWindow::SetCursorMode(Window::CursorMode mode)
+	{
+		m_data.CursorMode = mode;
+		switch (mode)
+		{
+		case Window::CursorMode::Normal:
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		case Window::CursorMode::Hidden:
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		case Window::CursorMode::Disabled:
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
 	}
 }

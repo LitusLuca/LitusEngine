@@ -3,6 +3,8 @@
 
 #include "Litus\Renderer\Renderer.h"
 #include "Time.h"
+#include "Litus\Event\KeyEvents.h"
+#include "KeyCodes.h"
 
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
@@ -41,6 +43,15 @@ namespace LT {
 				break;
 			(*it)->OnEvent(ev);
 		}
+
+		dispatcher.Dispatch<KeyPressedEvent>([this](KeyPressedEvent& ev) {
+			if (ev.getKeyCode() == LT_KEY_ESCAPE && !ev.Handled)
+			{
+				m_running = false;
+				return true;
+			}
+			return false;
+			});
 	}
 
 	void Application::PushLayer(Layer* layer)
