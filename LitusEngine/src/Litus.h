@@ -17,3 +17,5 @@
 #include "Litus\Event\KeyEvents.h"
 #include "Litus\Event\MouseEvents.h"
 #include "Litus\Event\ApplicationEvents.h"
+
+#include "Litus\Utils\BinaryLoader.h"

@@ -15,7 +15,7 @@ private:
 
     LT::Ref<LT::PerspectiveCamera> m_camera;
     LT::Ref<LT::VertexArray> m_vertexArray;
-    LT::Ref<LT::Shader> m_shader;
+    LT::ShaderLibrary m_shaderLibrary;
     LT::Ref<LT::Texture2D> m_texture;
     glm::vec3 m_pos = { 0.f, 0.f, 0.f };
     glm::vec3 m_dir = { 0.f, 0.f, -1.f };

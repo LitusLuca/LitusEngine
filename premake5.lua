@@ -14,6 +14,7 @@ IncludeDir["GLFW"] = "LitusEngine/vendor/GLFW/include"
 IncludeDir["GLAD"] = "LitusEngine/vendor/GLAD/include"
 IncludeDir["ImGui"] = "LitusEngine/vendor/ImGui"
 IncludeDir["glm"] = "LitusEngine/vendor/glm"
+IncludeDir["stb_image"] = "LitusEngine/vendor/stb_image"
 
 include "LitusEngine/vendor/GLFW"
 include "LitusEngine/vendor/GLAD"
@@ -30,7 +31,8 @@ project "LitusEngine"
 
 	files {
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.cpp"
 	}
 	
 	pchheader "pch.h"
@@ -42,7 +44,8 @@ project "LitusEngine"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.GLAD}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
 	links {
@@ -117,4 +120,35 @@ project "Sandbox"
 
 	filter "configurations:Dist"
 		defines "LT_DIST"
+		optimize "On"
+
+project "plyLoader"
+	location "plyLoader"
+	kind "ConsoleApp"
+	language "C++"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files {
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs {
+		"LitusEngine/src/Litus/Utils"
+	}
+
+	filter "system:windows"
+		cppdialect "C++17"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		optimize "On"
+
+	filter "configurations:Dist"
 		optimize "On"
