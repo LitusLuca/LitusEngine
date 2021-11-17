@@ -74,18 +74,20 @@ namespace LT {
 			Time dT = time - m_lastFrame;
 			m_lastFrame = time;
 			
-			for (Layer* layer : m_layerStack)
+			if (!m_minimized)
 			{
-				layer->OnUpdate(dT);
+				for (Layer* layer : m_layerStack)
+				{
+					layer->OnUpdate(dT);
+				}
 			}
-
-
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_layerStack)
 			{
 				layer->OnImGuiRender();
 			}
 			m_ImGuiLayer->End();
+			
 			m_window->OnUpdate();
 		}
 	}
@@ -99,10 +101,10 @@ namespace LT {
 		if (e.GetWidth() == 0 || e.GetHeight() == 0)
 		{
 			m_minimized = true;
-			return false;
+			return true;
 		}
 		m_minimized = false;
-		//dispatch to renderer
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 }
