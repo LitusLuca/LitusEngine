@@ -12,6 +12,7 @@
 
 #include "Litus\Renderer\Renderer.h"
 #include "Litus\Renderer\PerspectiveCamera.h"
+#include "Litus\Renderer\FPSCameraController.h"
 #include "Litus\Renderer\Texture.h"
 
 #include "Litus\Event\KeyEvents.h"

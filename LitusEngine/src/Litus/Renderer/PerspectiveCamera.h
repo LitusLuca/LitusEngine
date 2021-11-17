@@ -6,7 +6,7 @@ namespace LT {
 		: public Camera
 	{
 	public:
-		PerspectiveCamera(float fov, float aspectRation, float nearPlane, float farPlane, glm::vec3 worldUp = { 0.f, 1.f, 0.f });
+		PerspectiveCamera(float fov, float aspectRation, float nearPlane, float farPlane);
 		~PerspectiveCamera() = default;
 
 		void SetProjection(float fov, float aspectRation, float nearPlane, float farPlane);
@@ -31,7 +31,7 @@ namespace LT {
 
 		glm::vec3 m_position = { 0.f, 0.f ,0.f };
 		glm::vec3 m_front = { 0.f, 0.f, -1.f };
-		glm::vec3 m_worldUp;
+		glm::vec3 m_worldUp = { 0.f, 1.f, 0.f };
 		float m_yaw = -90.f;
 		float m_pitch = 0.f;
 	};

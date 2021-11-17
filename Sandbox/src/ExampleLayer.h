@@ -11,12 +11,13 @@ public:
     void OnImGuiRender() override;
 
 private:
-    void RecalculateDir();
 
-    LT::Ref<LT::PerspectiveCamera> m_camera;
-    LT::Ref<LT::VertexArray> m_vertexArray;
+    LT::FPSCameraController m_cameraController;
+    LT::Ref<LT::VertexArray> m_puppy;
+    LT::Ref<LT::VertexArray> m_plane;
     LT::ShaderLibrary m_shaderLibrary;
     LT::Ref<LT::Texture2D> m_texture;
+    LT::Ref<LT::Texture2D> m_planeTexture;
     glm::vec3 m_pos = { 0.f, 0.f, 0.f };
     glm::vec3 m_dir = { 0.f, 0.f, -1.f };
     glm::vec2 m_mousePos = { 0, 0 };
@@ -28,5 +29,7 @@ private:
     int m_frame = 0;
     float m_time  = 0.f;
     int m_fps = 0;
+
+    float m_totalTime = 0;
 };
 
